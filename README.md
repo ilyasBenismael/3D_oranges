@@ -195,7 +195,7 @@ A compact Gaussian-based model that can be converted into a dense point cloud fo
   <img src="imgs/3DGS_output.png" width="55%" alt="Pipeline Overview">
 </p>
 
-**Mechanism (in short):**  
+**Mechanism :**  
 - Each Gaussian has parameters describing its **position, scale, orientation, opacity, and color** (via spherical harmonics).  
 - Training alternates between **rendering**, **error evaluation**, and **parameter updates** to minimize reprojection loss across all views.  
 - Densification was **increased around fruits** to better capture surface curvature and fine details.  
