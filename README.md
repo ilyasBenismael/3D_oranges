@@ -428,6 +428,14 @@ This section summarizes the behavior and comparative performance of each 3D reco
 - Especially beneficial for **distant fruits**, where perspective changes are smaller and 3DGS alone tends to produce noisy splats.  
 - For well-visible fruits, results are similar to 3DGS, but SuGaR yields smoother, more stable geometry under challenging visibility.
 
+<p align="center">
+  <img src="imgs/sugar_visibility.png" width="85"><br>
+</p>
+
+<p align="center">
+  <img src="imgs/sugar_vs_3dgs.png" width="45"><br>
+</p>
+
 ✅ **Takeaway:** SuGaR enhances 3DGS by enforcing **surface consistency**, improving accuracy on **occluded or far fruits**.
 
 ---
@@ -440,10 +448,6 @@ This section summarizes the behavior and comparative performance of each 3D reco
 | **PatchMatch-MVS** | ⚠️ sensitive | ✅ Dense | **2,77 mm** | 
 | **3DGS** | ✅ Strong | ✅ Very Dense | **2.0 mm** |
 | **SuGaR** | ✅ Strong | ✅ Very Dense + Cleaner | **1.94 mm**
-
-Final evaluation on 3DGS and SuGaR achieved:
-> **Mean Absolute Error (MAE): 1.94 mm**  
-> **R²: 0.89**
 
 ---
 
