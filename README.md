@@ -12,7 +12,7 @@ Each component of the pipeline — from segmentation to metric scaling and geome
 ## Pipeline Overview
 
 <p align="center">
-  <img src="imgs/pipeline.jpg" width="70%" alt="Pipeline Overview">
+  <img src="imgs/pipeline.jpg" width="45%" alt="Pipeline Overview">
 </p>
 
 The pipeline follows a structured, end-to-end process:
