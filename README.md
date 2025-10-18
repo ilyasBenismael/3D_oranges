@@ -146,5 +146,59 @@ These files together define the **camera geometry** and **initial sparse reconst
   <img src="imgs/sfm/output.png" width="55%">
 </p>
 
+### 🌐 PatchMatch-MVS
+
+**Goal:**  
+Densify the reconstruction by estimating detailed surface geometry from multiple views.
+
+**Input:**  
+Calibrated cameras (intrinsics and extrinsics) + sparse point cloud from SfM.
+
+**Output:**  
+Dense point cloud preserving fruit curvature and fine surface details.
+
+**Mechanism (in short):**  
+- Initialize random depth hypotheses per pixel patch.  
+- Reproject on neighboring views; high photometric similarity = good depth.  
+- Iteratively refine and propagate the best hypotheses.  
+- Fuse consistent depth maps into a dense cloud.  
+- No downscaling applied (retain detail). Depth range constrained by nearest and farthest SfM points, with standard photometric and geometric checks for robustness.  
+This serves as a strong **baseline** for quantitative fruit sizing.
+
+---
+
+### 🟢 3D Gaussian Splatting (3DGS)
+
+**Goal:**  
+Model the scene with Gaussian primitives for a dense, photometrically consistent 3D representation.
+
+**Input:**  
+SfM outputs (camera parameters, sparse cloud) + segmented RGB frames.
+
+**Output:**  
+Compact Gaussian-based model, later converted to a dense point cloud using the `3dgs-to-pc` procedure.
+
+**Mechanism (in short):**  
+- Each Gaussian has position, scale, orientation, opacity, and color (via spherical harmonics).  
+- Training alternates between rendering, error evaluation, and parameter updates.  
+- Densification was **increased around fruits** to capture surface curvature; **low-opacity Gaussians pruned early** to reduce noise.  
+- After training, Gaussians are sampled according to their covariance and opacity, yielding a dense point cloud that preserves both **geometry accuracy** and **surface detail**.
+
+---
+
+### 🔵 SuGaR (Surface-Aligned Gaussian Splatting)
+
+**Goal:**  
+Improve upon 3DGS by enforcing tighter alignment between Gaussians and actual surfaces.
+
+**Input:**  
+SfM cameras + sparse cloud + segmented frames.
+
+**Output:**  
+Dense, surface-aligned Gaussian model converted into a point cloud with improved geometric fidelity.
+
+**Mechanism (in short):**  
+SuGaR follows the same 3DGS process but adds **regularization constraints** that keep Gaussians attached to the underlying surface.  
+This ensures smoother, more consistent reconstructions, especially for **curved fruits**, making it ideal for precise diameter estimation.
 
 
