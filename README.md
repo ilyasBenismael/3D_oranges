@@ -12,7 +12,7 @@ Each component of the pipeline — from segmentation to metric scaling and geome
 ## Pipeline Overview
 
 <p align="center">
-  <img src="imgs/pipeline.jpg" width="45%" alt="Pipeline Overview">
+  <img src="imgs/pipeline.jpg" width="65%" alt="Pipeline Overview">
 </p>
 
 The pipeline follows a structured, end-to-end process:
@@ -37,7 +37,7 @@ Select the sharpest frames dynamically from the input video to ensure high-quali
 Video of a scanned tree (`.mp4`)
 
 <p align="center">
-  <img src="imgs/setup/scangif.gif" width="70%" alt="Tree scan video preview">
+  <img src="imgs/setup/scangif.gif" width="45%" alt="Tree scan video preview">
 </p>
 
 
