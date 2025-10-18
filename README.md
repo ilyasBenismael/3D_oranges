@@ -27,35 +27,25 @@ The pipeline follows a structured, end-to-end process:
 
 ---
 
-### 1. Frame Acquisition and Selection
-After placing a **reference sphere of known diameter** near the fruits, a short **video (< 1 minute)** is recorded around the tree.  
-The objective is to cover multiple viewpoints for better 3D consistency.
+### 🟠 Frame Acquisition
 
-Not all frames are suitable for reconstruction, so a **sharpness-based frame selection** is performed automatically using `extract_frames.py`.  
+After placing a **reference sphere** near the fruits, a short **video (< 1 minute)** of the tree is recorded to ensure coverage from multiple viewpoints.  
+From this video, frames are extracted to serve as input for 3D reconstruction.
 
-**Steps:**
-1. Read video resolution and frame rate (H×W, FPS).  
-2. Compute frame spacing:  
-   \[
-   N = \text{round}\left(\frac{fps \times 5}{30}\right)
-   \]
-   → about one frame kept every five for a 30 fps video.  
-3. Calculate an adaptive blur threshold based on resolution.  
-4. For every N frames:
-   - Compute **Laplacian variance** for sharpness.
-   - Retain only the sharpest frame above the threshold.  
-5. Save the selected frames to a folder for later segmentation and reconstruction.
+Because not all frames are equally sharp, an **automatic frame selection** process is applied (`extract_frames.py`):
 
-**Laplacian Variance Logic:**
-- Convert frame to grayscale.  
-- Apply Laplacian operator to highlight edges.  
-- Compute variance of Laplacian response:
-  - **High variance → sharp image.**
-  - **Low variance → blurred image.**
-- The blur threshold scales dynamically with resolution  
-  (≈ 100 for 720p, higher for HD, lower for smaller images).
+1. Read video resolution and frame rate.  
+2. Sample roughly one frame every five (adaptive to FPS).  
+3. Compute an adaptive blur threshold based on resolution.  
+4. For each group of frames, keep only the **sharpest one** using the **Laplacian variance** method.  
+5. Save the selected frames for the next pipeline stage.
 
-This ensures that only the **sharpest, most representative** frames are used as input to subsequent steps, improving reconstruction quality.
+**Laplacian variance** measures image sharpness by quantifying edge intensity:  
+- High variance → sharp image  
+- Low variance → blurred image  
+
+The blur threshold scales with resolution (≈100 for 720p, higher for HD).  
+This ensures that only **clear, representative frames** are used for segmentation and reconstruction.
 
 ---
 
