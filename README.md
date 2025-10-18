@@ -297,7 +297,7 @@ Estimated diameters in millimeters.
 - Sphere fitting remains more consistent and realistic when only part of the fruit is visible, preserving true geometry for diameter estimation.
 
 <p align="center">
-  <img src="imgs/sphere-fitting.png" width="45%" alt="Pipeline Overview">
+  <img src="imgs/sphere-fitting.png" width="34%" alt="Pipeline Overview">
 </p>
 
 ---
