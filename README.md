@@ -192,7 +192,7 @@ SfM outputs (camera parameters, sparse cloud) + segmented RGB frames.
 A compact Gaussian-based model that can be converted into a dense point cloud for geometric analysis.
 
 <p align="center">
-  <img src="imgs/3DGS_output.png" width="50%" alt="Pipeline Overview">
+  <img src="imgs/3DGS_output.png" width="55%" alt="Pipeline Overview">
 </p>
 
 **Mechanism (in short):**  
@@ -212,7 +212,7 @@ An improved version of 3DGS, **SuGaR (Surface-Aligned Gaussian Splatting)**, add
 This alignment significantly improves the **geometric accuracy** of curved fruits and ensures **smoother, more realistic reconstructions**, ideal for precise diameter estimation.
 
 <p align="center">
-  <img src="imgs/b.png" width="75%" alt="Pipeline Overview">
+  <img src="imgs/b.png" width="50%" alt="Pipeline Overview">
 </p>
 
 
