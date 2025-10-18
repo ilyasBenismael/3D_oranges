@@ -67,7 +67,7 @@ By simply changing the **text prompt**, the same approach can be applied to appl
 #### ⚙️ Algo 1: Grounding DINO
 
 **Input:**  
-RGB image + text prompt (e.g., `"orange fruit"`)
+RGB image + text prompt (like "orange fruit, orange ball"`)
 
 **Mechanism (in short):**  
 - GroundingDINO encodes the **image** and **text prompt** separately using transformer backbones.  
@@ -76,12 +76,17 @@ RGB image + text prompt (e.g., `"orange fruit"`)
 - Boxes are refined and scored based on this visual–text alignment.  
 - Final output keeps boxes whose features strongly match the requested text — grounding open-vocabulary text directly to image regions.
 
-**Output:**  
-For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,1]`, with the matched word(s) from the prompt.
+<p align="center">
+  <img src="imgs/segmentation/gd_pipeline.png" width="70%">
+</p>
 
-**Figures:**  
-- `GD_pipeline.png` — GroundingDINO architecture  
-- `GD_results.png` — Example detection results  
+
+**Output:**  
+For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,1]`, with the matched words from the prompt.
+
+<p align="center">
+  <img src="imgs/segmentation/bbx.jpg" width="50%">
+</p>
 
 ---
 
@@ -98,6 +103,15 @@ Image + bounding boxes (from GroundingDINO)
 - We added **padding** around each bounding box before passing it to SAM, giving it more **context** and improving edge accuracy around the fruits.  
 - The model outputs one binary mask per object, corresponding to the fruit pixels.
 
+<p align="center">
+  <img src="imgs/segmentation/sam_pipeline.png" width="50%">
+</p>
+
+
 **Output:**  
 For each image → a binary mask of the fruit region (`.png`) aligned with the original image.
+
+<p align="center">
+  <img src="imgs/segmentation/masks.jpg" width="50%">
+</p>
 
