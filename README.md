@@ -219,39 +219,28 @@ This alignment significantly improves the **geometric accuracy** of curved fruit
 ---
 
 
-### 🍊 3D Fruit Instance Separation
+### 🍊 3D Fruit Instance Separation (HDBSCAN Clustering)
 
 **Goal:**  
-Isolate each fruit within the reconstructed point cloud for independent diameter analysis.
+Automatically isolate each fruit within the reconstructed point cloud for independent diameter estimation.
 
 **Input:**  
-Dense 3D point cloud (`.ply`) from MVS or 3DGS-to-PC.
+Dense 3D point cloud (`.ply`) from MVS or 3DGS.
 
 **Output:**  
-Individual fruit clusters (`cluster_00.ply`, `cluster_01.ply`, …).
+Stable fruit clusters (`cluster_00.ply`, `cluster_01.ply`, …), each representing a single fruit.
+
+<p align="center">
+  <img src="imgs/hdbscan.png" width="40%" alt="Pipeline Overview">
+</p>
 
 **Mechanism :**  
-We used density-based clustering methods to group points belonging to the same fruit.  
-**DBSCAN** was first tested but was highly sensitive to parameters (ε, min points), often over- or under-segmenting.  
-**HDBSCAN** was adopted instead, as it automatically adapts to varying densities across the cloud — dense fruits, sparse occluded ones, or branches — and removes background noise by marking unstable points as outliers.
+We adopted **HDBSCAN**, which automatically adapts to local density variations:  
+- Builds a hierarchy of clusters across multiple density thresholds.  
+- Extracts the most persistent (stable) clusters.  
+- Marks low-stability points as noise, effectively removing background artifacts.  
+This approach produces clean, consistent clusters that can be directly used for scaling and diameter measurement without manual editing.
 
----
-
-### 🧭 HDBSCAN Clustering
-
-**Goal:**  
-Automatically cluster fruits of varying densities without manual tuning.
-
-**Input:**  
-Dense point cloud of the entire tree.
-
-**Output:**  
-Stable fruit clusters, each corresponding to a single fruit.
-
-**Mechanism :**  
-HDBSCAN builds a hierarchy of clusters at multiple density levels and extracts the most persistent ones.  
-This method handles uneven point densities and automatically filters out non-fruit background points.  
-Each resulting cluster is processed later for scaling and diameter estimation.
 
 ---
 
@@ -261,7 +250,7 @@ Each resulting cluster is processed later for scaling and diameter estimation.
 Identify the cluster of the **reference sphere** used for metric scaling.
 
 **Input:**  
-All clustered fruits + reference object within the 3D point cloud.
+All clusters (3D point clouds).
 
 **Output:**  
 One isolated cluster corresponding to the colored reference sphere.
@@ -288,7 +277,6 @@ Scaled 3D point cloud (all dimensions in millimeters).
 2. Compare with the known real diameter.  
 3. Compute the scaling factor and apply it to the entire cloud.  
 This yields a **metrically consistent reconstruction** ready for accurate fruit sizing.  
-Controlled tests showed scaling deviations within **0.5–2 mm**, confirming robustness.
 
 ---
 
@@ -301,12 +289,16 @@ Estimate the diameter of each fruit using geometric fitting.
 Individual fruit clusters (scaled point clouds).
 
 **Output:**  
-Estimated diameters in millimeters (saved to `results.csv`).
+Estimated diameters in millimeters.
 
 **Mechanism :**  
 - Fit a **sphere model** to each cluster using **RANSAC**, minimizing point-to-surface distance.  
 - Ellipsoid fitting was tested but proved unstable under partial visibility.  
 - Sphere fitting remains more consistent and realistic when only part of the fruit is visible, preserving true geometry for diameter estimation.
+
+<p align="center">
+  <img src="imgs/sphere-fitting.png" width="65%" alt="Pipeline Overview">
+</p>
 
 ---
 
@@ -316,7 +308,7 @@ Estimated diameters in millimeters (saved to `results.csv`).
 Quantify how much of each fruit’s surface was visible in the reconstruction — a key factor for accuracy assessment.
 
 **Input:**  
-Scaled fruit cluster + real fruit radius.
+Fruit cluster (point cloud) + fruit radius.
 
 **Output:**  
 Visibility ratio (%) per fruit.
@@ -328,6 +320,9 @@ Visibility ratio (%) per fruit.
 - Compute visibility = (observed faces) / (total faces).  
 This gives a clear measure of how complete each fruit’s reconstruction is and how reliable its estimated diameter will be.
 
+<p align="center">
+  <img src="imgs/visibility.png" width="70%" alt="Pipeline Overview">
+</p>
 
 
 
