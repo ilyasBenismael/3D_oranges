@@ -1,4 +1,4 @@
-# 🍊 On-Tree Citrus Fruit Sizing via 3D Reconstruction
+# On-Tree Citrus Fruit Sizing via 3D Reconstruction
 
 Accurately estimating fruit size is essential in precision agriculture for **yield prediction and quality control**.  
 Traditional sensor-based or manual methods are either **expensive** or **impractical at scale**, while RGB-based approaches offer a **low-cost and easily deployable alternative** using just consumer smartphones.  
@@ -9,7 +9,7 @@ Each component of the pipeline — from segmentation to metric scaling and geome
 
 ---
 
-## 🧩 Pipeline Overview
+## Pipeline Overview
 
 <p align="center">
   <img src="imgs/pipeline.jpg" width="70%" alt="Pipeline Overview">
@@ -24,23 +24,6 @@ The pipeline follows a structured, end-to-end process:
 5. **Metric Scaling** – reconstruction scaled to real-world units using the reference object  
 6. **Clustering and Fitting** – fruits isolated with *HDBSCAN*, then sphere fitting used to estimate diameters  
 7. **Final Output** – fruit diameters in millimeters with visual and quantitative evaluation
-
----
-
-# 🍊 On-Tree Citrus Fruit Sizing via 3D Reconstruction
-
-## 🧭 Overview
-Accurately measuring fruit size is a key challenge in **precision agriculture**, directly linked to yield prediction and quality control.  
-Traditional sensor-based or manual tools are often **costly**, **fragile**, or **unscalable**, while RGB-based approaches provide a **low-cost and field-ready alternative** using only consumer smartphones.
-
-This repository presents a **complete RGB video-based 3D reconstruction pipeline** for **on-tree citrus fruit sizing**.  
-Each stage — from frame extraction to geometric fitting — was designed, implemented, and validated under real orchard conditions, combining classical geometry with modern neural reconstruction methods for robustness and metric accuracy.
-
----
-
-## 🧩 Pipeline Summary
-
-The full process consists of the following stages:
 
 ---
 
