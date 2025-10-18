@@ -180,66 +180,42 @@ This serves as a strong **baseline** for quantitative fruit sizing.
 
 
 ---
-
 ### 🟢 3D Gaussian Splatting (3DGS)
 
 **Goal:**  
-Model the scene with Gaussian primitives for a dense, photometrically consistent 3D representation.
+Model the scene using Gaussian primitives to obtain a dense, photometrically consistent 3D representation of the tree and fruits.
 
 **Input:**  
 SfM outputs (camera parameters, sparse cloud) + segmented RGB frames.
 
 **Output:**  
-Compact Gaussian-based model, later converted to a dense point cloud using the `3dgs-to-pc` procedure.
+A compact Gaussian-based model that can be converted into a dense point cloud for geometric analysis.
 
 <p align="center">
-  <img src="imgs/3DGS_output.png" width="65%" alt="Pipeline Overview">
+  <img src="imgs/3DGS_output" width="50%" alt="Pipeline Overview">
 </p>
 
-**Mechanism :**  
-- Each Gaussian has position, scale, orientation, opacity, and color (via spherical harmonics).  
-- Training alternates between rendering, error evaluation, and parameter updates.  
-- Densification was **increased around fruits** to capture surface curvature; **low-opacity Gaussians pruned early** to reduce noise.  
-- After training, Gaussians are sampled according to their covariance and opacity, yielding a dense point cloud that preserves both **geometry accuracy** and **surface detail**.
+**Mechanism (in short):**  
+- Each Gaussian has parameters describing its **position, scale, orientation, opacity, and color** (via spherical harmonics).  
+- Training alternates between **rendering**, **error evaluation**, and **parameter updates** to minimize reprojection loss across all views.  
+- Densification was **increased around fruits** to better capture surface curvature and fine details.  
+- **Low-opacity Gaussians** are pruned early to remove background noise and redundant splats.  
+- After optimization, the model is **converted into a dense point cloud** through a sampling process known as **3DGS-to-PC**, where each Gaussian is projected into 3D space and sampled according to its covariance and opacity.  
+  This yields a detailed point cloud that preserves both the **metric geometry** and **local texture fidelity** of the scene.
 
 <p align="center">
-  <img src="imgs/3DGS_pipeline.png" width="65%" alt="Pipeline Overview">
+  <img src="imgs/3DGS_pipeline.png" width="80%" alt="Pipeline Overview">
 </p>
+
+**SuGaR Extension:**  
+An improved version of 3DGS, **SuGaR (Surface-Aligned Gaussian Splatting)**, adds a **surface-regularization term** to keep Gaussians tightly aligned to object surfaces.  
+This alignment significantly improves the **geometric accuracy** of curved fruits and ensures **smoother, more realistic reconstructions**, ideal for precise diameter estimation.
+
+<p align="center">
+  <img src="imgs/b.png" width="75%" alt="Pipeline Overview">
+</p>
+
 
 ---
 
-### 🔵 SuGaR (Surface-Aligned Gaussian Splatting)
-
-**Goal:**  
-Improve upon 3DGS by enforcing tighter alignment between Gaussians and actual surfaces.
-
-**Input:**  
-SfM outputs (camera parameters, sparse cloud) + segmented frames.
-
-**Output:**  
-Dense, surface-aligned Gaussian model with improved geometric fidelity.
-
-**Mechanism:**  
-SuGaR follows the same 3DGS process but adds **regularization constraints** that keep Gaussians attached to the underlying surface.  
-This ensures smoother, more consistent reconstructions, especially for **curved fruits**, making it ideal for precise diameter estimation.
-
----
-
-### 🟣 3DGS-to-PointCloud (3DGS-to-PC)
-
-**Goal:**  
-Convert the optimized 3D Gaussian scene into a **dense, analyzable point cloud** for geometry-based processing.
-
-**Input:**  
-Trained Gaussian model (from 3DGS).
-
-**Output:**  
-Dense point cloud of the reconstructed tree and fruits (`.ply`), directly usable for clustering and diameter fitting.
-
-**Mechanism:**  
-- Each Gaussian is projected back into 3D space.  
-- Sampling is performed according to the **covariance** (scale and orientation) of each Gaussian, effectively transforming anisotropic splats into clusters of discrete 3D points.  
-- **High-opacity Gaussians** contribute more samples, while **pruned or transparent** ones contribute none.  
-- The result is a **dense point cloud** that inherits both the geometric accuracy of SfM and the surface richness of 3DGS.
-This conversion bridges neural rendering and classical geometry, allowing further analysis such as fruit clustering and measurement.
 
