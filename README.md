@@ -192,7 +192,7 @@ SfM outputs (camera parameters, sparse cloud) + segmented RGB frames.
 A compact Gaussian-based model that can be converted into a dense point cloud for geometric analysis.
 
 <p align="center">
-  <img src="imgs/3DGS_output" width="50%" alt="Pipeline Overview">
+  <img src="imgs/3DGS_output.png" width="50%" alt="Pipeline Overview">
 </p>
 
 **Mechanism (in short):**  
