@@ -390,7 +390,7 @@ This section summarizes the behavior and comparative performance of each 3D reco
 - Produces a **much denser** and more realistic cloud than SfM, allowing better diameter fitting.
 
 <p align="center">
-  <img src="imgs/sfm_vs_mvs.png" width="75"><br>
+  <img src="imgs/sfm_vs_mvs.png" width="75%"><br>
 </p>
 
 ✅ **Takeaway:** PatchMatch-MVS greatly improves detail over SfM cloud alone but is **sensitive to illumination** and **depends heavily on visibility**.
@@ -407,14 +407,14 @@ This section summarizes the behavior and comparative performance of each 3D reco
 - Reconstructed fruits achieve up to **88% visibility** (as measured in the visibility estimation stage), far exceeding the coverage achieved by MVS.  
 
 <p align="center">
-  <img src="imgs/3dgs_results_visibility.png" width="80"><br>
+  <img src="imgs/3dgs_results_visibility.png" width="80%"><br>
 </p>
 
 **Diameter estimation performance:**  
 - Thanks to its higher density and consistency, 3DGS yields **more accurate fruit diameter estimates** than PatchMatch-MVS.  
 
 <p align="center">
-  <img src="imgs/3dgs_vs_mvs.png" width="45"><br>
+  <img src="imgs/3dgs_vs_mvs.png" width="45%"><br>
 </p>
 
 ✅ **Takeaway:** 3DGS outperforms MVS in **coverage**, **lighting robustness**, and **diameter estimation accuracy**, offering a fuller and more reliable 3D reconstruction of the fruits.
@@ -429,11 +429,11 @@ This section summarizes the behavior and comparative performance of each 3D reco
 - For well-visible fruits, results are similar to 3DGS, but SuGaR yields smoother, more stable geometry under challenging visibility.
 
 <p align="center">
-  <img src="imgs/sugar_visibility.png" width="85"><br>
+  <img src="imgs/sugar_visibility.png" width="85%"><br>
 </p>
 
 <p align="center">
-  <img src="imgs/sugar_vs_3dgs.png" width="45"><br>
+  <img src="imgs/sugar_vs_3dgs.png" width="45%"><br>
 </p>
 
 ✅ **Takeaway:** SuGaR enhances 3DGS by enforcing **surface consistency**, improving accuracy on **occluded or far fruits**.
