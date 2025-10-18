@@ -109,7 +109,7 @@ For each image → a binary mask of the fruit region (`.png`) aligned with the o
 ---
 
 
-### 📸 Camera Alignment (Structure-from-Motion)
+### 📸 Camera Alignment using Structure-from-Motion (sfm)
 
 **Goal:**  
 Establish the **real-world geometric backbone** of the scene by recovering the exact camera poses and orientations from the captured frames.  
