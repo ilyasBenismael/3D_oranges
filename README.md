@@ -186,6 +186,27 @@ Compact Gaussian-based model, later converted to a dense point cloud using the `
 
 ---
 
+### 🟣 3DGS-to-PointCloud (3DGS-to-PC)
+
+**Goal:**  
+Convert the optimized 3D Gaussian scene into a **dense, analyzable point cloud** for geometry-based processing.
+
+**Input:**  
+Trained Gaussian model (from 3DGS).
+
+**Output:**  
+Dense point cloud of the reconstructed tree and fruits (`.ply`), directly usable for clustering and diameter fitting.
+
+**Mechanism (in short):**  
+- Each Gaussian is projected back into 3D space.  
+- Sampling is performed according to the **covariance** (scale and orientation) of each Gaussian, effectively transforming anisotropic splats into clusters of discrete 3D points.  
+- **High-opacity Gaussians** contribute more samples, while **pruned or transparent** ones contribute none.  
+- The result is a **dense, realistic point cloud** that inherits both the geometric accuracy of SfM and the surface richness of 3DGS.
+
+This conversion bridges neural rendering and classical geometry, allowing further analysis such as fruit clustering and measurement.
+
+---
+
 ### 🔵 SuGaR (Surface-Aligned Gaussian Splatting)
 
 **Goal:**  
