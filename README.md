@@ -40,7 +40,6 @@ Video of a scanned tree (`.mp4`)
   <img src="imgs/setup/scangif.gif" width="45%" alt="Tree scan video preview">
 </p>
 
-
 **Output:**  
 Group of sharp images (`.jpg`) extracted from the video
 
@@ -68,13 +67,6 @@ We combined two foundational open-vocabulary models — **GroundingDINO** and **
 **Input:**  
 RGB image + text prompt (like "orange fruit, orange ball"`)
 
-**Mechanism:**  
-- GroundingDINO encodes the **image** and **text prompt** separately using transformer backbones.  
-- It generates a set of **query boxes** that attend to both image and text features.  
-- Each query learns how well its region matches the given words.  
-- Boxes are refined and scored based on this visual–text alignment.  
-- Final output keeps boxes whose features strongly match the requested text — grounding open-vocabulary text directly to image regions.
-
 **Output:**  
 For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,1]`, with the matched words from the prompt.
 
@@ -82,8 +74,16 @@ For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,
   <img src="imgs/segmentation/bbx.jpg" width="50%">
 </p>
 
----
 
+**Mechanism:**  
+- GroundingDINO encodes the **image** and **text prompt** separately using transformer backbones.  
+- It generates a set of **query boxes** that attend to both image and text features.  
+- Each query learns how well its region matches the given words.  
+- Boxes are refined and scored based on this visual–text alignment.  
+- Final output keeps boxes whose features strongly match the requested text — grounding open-vocabulary text directly to image regions.
+
+
+---
 
 
 #### ⚙️ Algo 2: Segment Anything (SAM)
@@ -91,19 +91,19 @@ For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,
 **Input:**  
 Image + bounding boxes (from GroundingDINO)
 
-**Mechanism:**  
-- SAM extracts image embeddings and uses the bounding boxes as **spatial prompts** to localize the target.  
-- It predicts a **pixel-accurate mask** for each region inside the box.  
-- We added **padding** around each bounding box before passing it to SAM, giving it more **context** and improving edge accuracy around the fruits.  
-- The model outputs one binary mask per object, corresponding to the fruit pixels.
-
-
 **Output:**  
 For each image → a binary mask of the fruit region (`.png`) aligned with the original image.
 
 <p align="center">
   <img src="imgs/segmentation/masks.jpg" width="50%">
 </p>
+
+
+**Mechanism:**  
+- SAM extracts image embeddings and uses the bounding boxes as **spatial prompts** to localize the target.  
+- It predicts a **pixel-accurate mask** for each region inside the box.  
+- We added **padding** around each bounding box before passing it to SAM, giving it more **context** and improving edge accuracy around the fruits.  
+- The model outputs one binary mask per object, corresponding to the fruit pixels.
 
 
 ---
@@ -119,6 +119,17 @@ Accurate camera alignment ensures that every 3D point and surface is reconstruct
 
 **Input:**  
 Group of sharp frames (`.jpg`) extracted from the input video.
+
+**Output:**  
+- `cameras.txt` → intrinsic parameters (focal length, principal point, distortion)  
+- `images.txt` → extrinsic parameters (rotation, translation, 2D–3D correspondences)  
+- `points3D.txt` → sparse 3D point cloud with visibility information  
+These files together define the **camera geometry** and **initial sparse reconstruction**, used as input for all subsequent 3D stages.
+
+<p align="center">
+  <img src="imgs/sfm/output.png" width="55%">
+</p>
+
 
 **Mechanism:**  
 The Structure-from-Motion (SfM) pipeline proceeds as follows:
@@ -136,15 +147,9 @@ This process recovers the **true spatial configuration** of the camera setup and
   <img src="imgs/sfm/pipeline.png" width="40%" alt="Pipeline Overview">
 </p>
 
-**Output:**  
-- `cameras.txt` → intrinsic parameters (focal length, principal point, distortion)  
-- `images.txt` → extrinsic parameters (rotation, translation, 2D–3D correspondences)  
-- `points3D.txt` → sparse 3D point cloud with visibility information  
-These files together define the **camera geometry** and **initial sparse reconstruction**, used as input for all subsequent 3D stages.
 
-<p align="center">
-  <img src="imgs/sfm/output.png" width="55%">
-</p>
+
+---
 
 ### 🌐 PatchMatch-MVS
 
@@ -157,7 +162,7 @@ Calibrated cameras (intrinsics and extrinsics) + sparse point cloud from SfM.
 **Output:**  
 Dense point cloud preserving fruit curvature and fine surface details.
 
-**Mechanism (in short):**  
+**Mechanism :**  
 - Initialize random depth hypotheses per pixel patch.  
 - Reproject on neighboring views; high photometric similarity = good depth.  
 - Iteratively refine and propagate the best hypotheses.  
@@ -178,11 +183,28 @@ SfM outputs (camera parameters, sparse cloud) + segmented RGB frames.
 **Output:**  
 Compact Gaussian-based model, later converted to a dense point cloud using the `3dgs-to-pc` procedure.
 
-**Mechanism (in short):**  
+**Mechanism :**  
 - Each Gaussian has position, scale, orientation, opacity, and color (via spherical harmonics).  
 - Training alternates between rendering, error evaluation, and parameter updates.  
 - Densification was **increased around fruits** to capture surface curvature; **low-opacity Gaussians pruned early** to reduce noise.  
 - After training, Gaussians are sampled according to their covariance and opacity, yielding a dense point cloud that preserves both **geometry accuracy** and **surface detail**.
+
+---
+
+### 🔵 SuGaR (Surface-Aligned Gaussian Splatting)
+
+**Goal:**  
+Improve upon 3DGS by enforcing tighter alignment between Gaussians and actual surfaces.
+
+**Input:**  
+SfM outputs (camera parameters, sparse cloud) + segmented frames.
+
+**Output:**  
+Dense, surface-aligned Gaussian model with improved geometric fidelity.
+
+**Mechanism:**  
+SuGaR follows the same 3DGS process but adds **regularization constraints** that keep Gaussians attached to the underlying surface.  
+This ensures smoother, more consistent reconstructions, especially for **curved fruits**, making it ideal for precise diameter estimation.
 
 ---
 
@@ -197,29 +219,10 @@ Trained Gaussian model (from 3DGS).
 **Output:**  
 Dense point cloud of the reconstructed tree and fruits (`.ply`), directly usable for clustering and diameter fitting.
 
-**Mechanism (in short):**  
+**Mechanism:**  
 - Each Gaussian is projected back into 3D space.  
 - Sampling is performed according to the **covariance** (scale and orientation) of each Gaussian, effectively transforming anisotropic splats into clusters of discrete 3D points.  
 - **High-opacity Gaussians** contribute more samples, while **pruned or transparent** ones contribute none.  
-- The result is a **dense, realistic point cloud** that inherits both the geometric accuracy of SfM and the surface richness of 3DGS.
-
+- The result is a **dense point cloud** that inherits both the geometric accuracy of SfM and the surface richness of 3DGS.
 This conversion bridges neural rendering and classical geometry, allowing further analysis such as fruit clustering and measurement.
-
----
-
-### 🔵 SuGaR (Surface-Aligned Gaussian Splatting)
-
-**Goal:**  
-Improve upon 3DGS by enforcing tighter alignment between Gaussians and actual surfaces.
-
-**Input:**  
-SfM cameras + sparse cloud + segmented frames.
-
-**Output:**  
-Dense, surface-aligned Gaussian model converted into a point cloud with improved geometric fidelity.
-
-**Mechanism (in short):**  
-SuGaR follows the same 3DGS process but adds **regularization constraints** that keep Gaussians attached to the underlying surface.  
-This ensures smoother, more consistent reconstructions, especially for **curved fruits**, making it ideal for precise diameter estimation.
-
 
