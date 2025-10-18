@@ -36,6 +36,11 @@ Select the sharpest frames dynamically from the input video to ensure high-quali
 **Input:**  
 Video of a scanned tree (`.mp4`)
 
+<p align="center">
+  <img src="imgs/setup/scangif.gif" width="70%" alt="Tree scan video preview">
+</p>
+
+
 **Output:**  
 Group of sharp images (`.jpg`) extracted from the video
 
