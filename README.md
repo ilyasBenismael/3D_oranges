@@ -143,7 +143,7 @@ This process recovers the **true spatial configuration** of the camera setup and
 These files together define the **camera geometry** and **initial sparse reconstruction**, used as input for all subsequent 3D stages.
 
 <p align="center">
-  <img src="imgs/sfm/output.png" width="75%">
+  <img src="imgs/sfm/output.png" width="55%">
 </p>
 
 
