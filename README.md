@@ -230,7 +230,7 @@ Dense 3D point cloud (`.ply`) from MVS or 3DGS-to-PC.
 **Output:**  
 Individual fruit clusters (`cluster_00.ply`, `cluster_01.ply`, …).
 
-**Mechanism (in short):**  
+**Mechanism :**  
 We used density-based clustering methods to group points belonging to the same fruit.  
 **DBSCAN** was first tested but was highly sensitive to parameters (ε, min points), often over- or under-segmenting.  
 **HDBSCAN** was adopted instead, as it automatically adapts to varying densities across the cloud — dense fruits, sparse occluded ones, or branches — and removes background noise by marking unstable points as outliers.
@@ -248,7 +248,7 @@ Dense point cloud of the entire tree.
 **Output:**  
 Stable fruit clusters, each corresponding to a single fruit.
 
-**Mechanism (in short):**  
+**Mechanism :**  
 HDBSCAN builds a hierarchy of clusters at multiple density levels and extracts the most persistent ones.  
 This method handles uneven point densities and automatically filters out non-fruit background points.  
 Each resulting cluster is processed later for scaling and diameter estimation.
@@ -266,7 +266,7 @@ All clustered fruits + reference object within the 3D point cloud.
 **Output:**  
 One isolated cluster corresponding to the colored reference sphere.
 
-**Mechanism (in short):**  
+**Mechanism :**  
 The reference sphere was chosen with a distinct color (blue) to simplify detection.  
 We filtered clusters based on color distribution to isolate the scaling sphere automatically, ensuring a clean and reliable scale reference for the next stage.
 
@@ -283,7 +283,7 @@ Cluster of the reference sphere (known real diameter).
 **Output:**  
 Scaled 3D point cloud (all dimensions in millimeters).
 
-**Mechanism (in short):**  
+**Mechanism :**  
 1. Fit a sphere to the reference cluster and measure its reconstructed diameter.  
 2. Compare with the known real diameter.  
 3. Compute the scaling factor and apply it to the entire cloud.  
@@ -303,7 +303,7 @@ Individual fruit clusters (scaled point clouds).
 **Output:**  
 Estimated diameters in millimeters (saved to `results.csv`).
 
-**Mechanism (in short):**  
+**Mechanism :**  
 - Fit a **sphere model** to each cluster using **RANSAC**, minimizing point-to-surface distance.  
 - Ellipsoid fitting was tested but proved unstable under partial visibility.  
 - Sphere fitting remains more consistent and realistic when only part of the fruit is visible, preserving true geometry for diameter estimation.
@@ -321,7 +321,7 @@ Scaled fruit cluster + real fruit radius.
 **Output:**  
 Visibility ratio (%) per fruit.
 
-**Mechanism (in short):**  
+**Mechanism :**  
 - Generate an **icosphere** (triangular spherical mesh) with radius = real fruit radius.  
 - Fit its center inside the reconstructed cluster.  
 - For each 3D point, mark the nearest icosphere face as observed.  
