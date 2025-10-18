@@ -125,6 +125,10 @@ The Structure-from-Motion (SfM) pipeline proceeds as follows:
 4. **Global bundle adjustment:** jointly optimize all camera parameters and 3D point positions to minimize reprojection error.
 This process recovers the **true spatial configuration** of the camera setup and ensures geometric consistency across all views.
 
+<p align="center">
+  <img src="imgs/sfm/pipeline.png" width="65%" alt="Pipeline Overview">
+</p>
+
 **Configuration:**  
 - **No image downscaling** applied — high-resolution details preserved for more reliable matches.  
 - **Shared camera intrinsics** optimized once for all images (same recording device).  
@@ -137,7 +141,7 @@ This process recovers the **true spatial configuration** of the camera setup and
 These files together define the **camera geometry** and **initial sparse reconstruction**, used as input for all subsequent 3D stages.
 
 <p align="center">
-  <img src="imgs/segmentation/masks.jpg" width="50%">
+  <img src="imgs/sfm/output.png" width="50%">
 </p>
 
 
