@@ -330,25 +330,24 @@ This gives a clear measure of how complete each fruit’s reconstruction is and 
 
 
 
+---
 
 ## 📊 Results and Analysis
 
 This section summarizes the behavior and comparative performance of each 3D reconstruction method under different filming conditions, as well as the final accuracy of the full pipeline.
 
----
 
-### 🟠 Structure-from-Motion (SfM)
+### 🟠 Findings on Structure-from-Motion:
 
-**Role:** Backbone for all reconstruction methods — provides camera poses and the sparse 3D geometry.  
-
-**Findings:**
-- **Filming distance matters:**  
+**Filming distance matters:**  
   - Near-tree scans produce many fine-texture keypoints → strong matches → accurate geometry.  
   - Far-tree scans give higher overlap but fewer details, causing weak alignment and sparse, unreliable clouds.  
   - Diameter error: **4.21 mm (near)** vs **11.02 mm (far)**.  
-- **Light variation:**  
+
+**Light variation:**  
   - SfM (based on SIFT) is stable under illumination changes — unaffected by morning vs noon lighting.  
-- **Using full images vs segmented:**  
+
+**Using full images vs segmented:**  
   - Using only fruit pixels for alignment fails (too few features).  
   - Full images must be used for camera alignment, while segmentation is applied **later** for dense reconstruction.
 
@@ -356,47 +355,44 @@ This section summarizes the behavior and comparative performance of each 3D reco
 
 ---
 
-### 🔷 PatchMatch-MVS
+### 🔷 Findings on PatchMatch-MVS
 
-**Role:** Densifies the SfM cloud by generating per-image depth maps.
+**Lighting sensitivity:**  
+- Strong light variation causes mismatched depth hypotheses → duplicated fruits or artifacts under noon sunlight.  
 
-**Findings:**
-- **Lighting sensitivity:**  
-  - Strong light variation causes mismatched depth hypotheses → duplicated fruits or artifacts under noon sunlight.  
-- **Filming distance:**  
-  - More robust than SfM — even far scans produce useful dense clouds, improving spherical geometry reconstruction.  
-- **Visibility:**  
-  - Accuracy correlates directly with visibility — low-visibility fruits lead to distorted or incomplete clusters.  
-- **Density:**  
-  - Produces a **much denser** and more realistic cloud than SfM, allowing better diameter fitting.
+**Filming distance:**  
+- More robust than SfM — even far scans produce useful dense clouds, improving spherical geometry reconstruction.  
+
+**Visibility:**  
+- Accuracy correlates directly with visibility — low-visibility fruits lead to distorted or incomplete clusters.  
+
+**Density:**  
+- Produces a **much denser** and more realistic cloud than SfM, allowing better diameter fitting.
 
 ✅ **Takeaway:** PatchMatch-MVS greatly improves detail over SfM but is **sensitive to illumination** and **depends heavily on visibility**.
 
 ---
 
-### 🟢 3D Gaussian Splatting (3DGS)
+### 🟢 Findings on 3D Gaussian Splatting (3DGS)
 
-**Role:** Neural explicit representation initialized from SfM; each Gaussian encodes geometry and color.
+**Lighting robustness:**  
+- Performs consistently in both morning and noon conditions — spherical harmonics make it **resistant to illumination changes**.  
 
-**Findings:**
-- **Lighting robustness:**  
-  - Performs consistently in both morning and noon conditions — spherical harmonics make it **resistant to illumination changes**.  
-- **Scene coverage:**  
-  - Captures **more fruits** and background geometry than MVS; integrates weak cues visible in only a few views.  
-- **Visibility:**  
-  - Reconstructed fruits reach up to **88% visibility**, much higher than MVS.  
-- **Density:**  
-  - Clouds are denser and more complete, enabling reconstruction of areas missed by PatchMatch-MVS.
+**Scene coverage:**  
+- Captures **more fruits** and background geometry than MVS; integrates weak cues visible in only a few views.  
+
+**Visibility:**  
+- Reconstructed fruits reach up to **88% visibility**, much higher than MVS.  
+
+**Density:**  
+- Clouds are denser and more complete, enabling reconstruction of areas missed by PatchMatch-MVS.
 
 ✅ **Takeaway:** 3DGS outperforms MVS in both **coverage and light robustness**, yielding a fuller reconstruction of the tree and fruits.
 
 ---
 
-### 🔵 SuGaR (Surface-Aligned 3DGS)
+### 🔵 Findings on SuGaR (Surface-Aligned 3DGS)
 
-**Role:** Refines 3DGS by constraining Gaussians to lie on actual surfaces.
-
-**Findings:**
 - Produces **cleaner, surface-oriented** reconstructions with fewer floating artifacts.  
 - Especially beneficial for **distant fruits**, where perspective changes are smaller and 3DGS alone tends to produce noisy splats.  
 - For well-visible fruits, results are similar to 3DGS, but SuGaR yields smoother, more stable geometry under challenging visibility.
@@ -407,12 +403,12 @@ This section summarizes the behavior and comparative performance of each 3D reco
 
 ### ⚙️ Quantitative Evaluation
 
-| Method | Lighting Robustness | Handles Occlusion | Density | Mean Abs. Error (mm) | R² |
-|---------|---------------------|------------------|----------|----------------------|----|
-| **SfM** | ✅ Strong | ⚠️ Weak | Sparse | 4.21–11.02 | — |
-| **PatchMatch-MVS** | ⚠️ Sensitive | ⚠️ Moderate | Dense | ~3.0–4.0 | — |
-| **3DGS** | ✅ Excellent | ✅ Strong | Very Dense | **≈2.0** | 0.89 |
-| **SuGaR** | ✅ Excellent | ✅✅ Best | Very Dense + Clean | **1.94 mm** | **0.89** |
+| Method | Lighting Robustness | Handles Occlusion | Density | Mean Abs. Error (mm) |
+|---------|---------------------|------------------|----------|----------------------|
+| **SfM** | ✅ Strong | ⚠️ Weak | Sparse | 4.21–11.02 | 
+| **PatchMatch-MVS** | ⚠️ Sensitive | ⚠️ Moderate | Dense | ~3.0–4.0 | 
+| **3DGS** | ✅ Excellent | ✅ Strong | Very Dense | **≈2.0** |
+| **SuGaR** | ✅ Excellent | ✅✅ Best | Very Dense + Clean | **1.94 mm**
 
 Final evaluation on 3DGS and SuGaR achieved:
 > **Mean Absolute Error (MAE): 1.94 mm**  
