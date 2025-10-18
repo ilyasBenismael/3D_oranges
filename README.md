@@ -162,6 +162,10 @@ Calibrated cameras (intrinsics and extrinsics) + sparse point cloud from SfM.
 **Output:**  
 Dense point cloud preserving fruit curvature and fine surface details.
 
+<p align="center">
+  <img src="imgs/mvs_output.png" width="65%" alt="Pipeline Overview">
+</p>
+
 **Mechanism :**  
 - Initialize random depth hypotheses per pixel patch.  
 - Reproject on neighboring views; high photometric similarity = good depth.  
@@ -169,6 +173,11 @@ Dense point cloud preserving fruit curvature and fine surface details.
 - Fuse consistent depth maps into a dense cloud.  
 - No downscaling applied (retain detail). Depth range constrained by nearest and farthest SfM points, with standard photometric and geometric checks for robustness.  
 This serves as a strong **baseline** for quantitative fruit sizing.
+
+<p align="center">
+  <img src="imgs/mvs_pipeline.png" width="65%" alt="Pipeline Overview">
+</p>
+
 
 ---
 
@@ -183,11 +192,19 @@ SfM outputs (camera parameters, sparse cloud) + segmented RGB frames.
 **Output:**  
 Compact Gaussian-based model, later converted to a dense point cloud using the `3dgs-to-pc` procedure.
 
+<p align="center">
+  <img src="imgs/3DGS_output.png" width="65%" alt="Pipeline Overview">
+</p>
+
 **Mechanism :**  
 - Each Gaussian has position, scale, orientation, opacity, and color (via spherical harmonics).  
 - Training alternates between rendering, error evaluation, and parameter updates.  
 - Densification was **increased around fruits** to capture surface curvature; **low-opacity Gaussians pruned early** to reduce noise.  
 - After training, Gaussians are sampled according to their covariance and opacity, yielding a dense point cloud that preserves both **geometry accuracy** and **surface detail**.
+
+<p align="center">
+  <img src="imgs/3DGS_pipeline.png" width="65%" alt="Pipeline Overview">
+</p>
 
 ---
 
