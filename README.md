@@ -85,6 +85,8 @@ For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,
 
 ---
 
+
+
 #### ⚙️ Algo 2: Segment Anything (SAM)
 
 **Input:**  
