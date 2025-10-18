@@ -44,7 +44,7 @@ Video of a scanned tree (`.mp4`)
 **Output:**  
 Group of sharp images (`.jpg`) extracted from the video
 
-**Mechanism (in short):**  
+**Mechanism:**  
 - The video’s resolution and FPS are read automatically.  
 - Approximately one frame is sampled every five (adaptive to different FPS values).  
 - For each group of frames, sharpness is measured using the **Laplacian variance** method.  
@@ -68,7 +68,7 @@ We combined two foundational open-vocabulary models — **GroundingDINO** and **
 **Input:**  
 RGB image + text prompt (like "orange fruit, orange ball"`)
 
-**Mechanism (in short):**  
+**Mechanism:**  
 - GroundingDINO encodes the **image** and **text prompt** separately using transformer backbones.  
 - It generates a set of **query boxes** that attend to both image and text features.  
 - Each query learns how well its region matches the given words.  
@@ -91,7 +91,7 @@ For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,
 **Input:**  
 Image + bounding boxes (from GroundingDINO)
 
-**Mechanism (in short):**  
+**Mechanism:**  
 - SAM extracts image embeddings and uses the bounding boxes as **spatial prompts** to localize the target.  
 - It predicts a **pixel-accurate mask** for each region inside the box.  
 - We added **padding** around each bounding box before passing it to SAM, giving it more **context** and improving edge accuracy around the fruits.  
@@ -105,6 +105,10 @@ For each image → a binary mask of the fruit region (`.png`) aligned with the o
   <img src="imgs/segmentation/masks.jpg" width="50%">
 </p>
 
+
+---
+
+
 ### 📸 Camera Alignment (Structure-from-Motion)
 
 **Goal:**  
@@ -112,12 +116,11 @@ Establish the **real-world geometric backbone** of the scene by recovering the e
 This step is crucial, as it provides the **ground-truth geometry** upon which all later dense reconstruction methods (MVS, 3DGS, SuGaR) rely.  
 Accurate camera alignment ensures that every 3D point and surface is reconstructed according to the **true spatial layout** of the scene.
 
----
 
 **Input:**  
 Group of sharp frames (`.jpg`) extracted from the input video.
 
-**Mechanism (in short):**  
+**Mechanism:**  
 The Structure-from-Motion (SfM) pipeline proceeds as follows:
 1. **Feature extraction:** detect local features using **SIFT** on each frame.  
 2. **Sequential feature matching:** match descriptors between consecutive frames (since video frames have high overlap).  
@@ -125,14 +128,13 @@ The Structure-from-Motion (SfM) pipeline proceeds as follows:
 4. **Global bundle adjustment:** jointly optimize all camera parameters and 3D point positions to minimize reprojection error.
 This process recovers the **true spatial configuration** of the camera setup and ensures geometric consistency across all views.
 
-<p align="center">
-  <img src="imgs/sfm/pipeline.png" width="40%" alt="Pipeline Overview">
-</p>
-
-**Configuration:**  
 - **No image downscaling** applied — high-resolution details preserved for more reliable matches.  
 - **Shared camera intrinsics** optimized once for all images (same recording device).  
 - **Sequential matching** chosen for efficiency and robustness, exploiting temporal continuity in video frames.
+  
+<p align="center">
+  <img src="imgs/sfm/pipeline.png" width="40%" alt="Pipeline Overview">
+</p>
 
 **Output:**  
 - `cameras.txt` → intrinsic parameters (focal length, principal point, distortion)  
