@@ -105,3 +105,47 @@ For each image → a binary mask of the fruit region (`.png`) aligned with the o
   <img src="imgs/segmentation/masks.jpg" width="50%">
 </p>
 
+### 📸 Camera Alignment (Structure-from-Motion)
+
+**Goal:**  
+Establish the **real-world geometric backbone** of the scene by recovering the exact camera poses and orientations from the captured frames.  
+This step is crucial, as it provides the **ground-truth geometry** upon which all later dense reconstruction methods (MVS, 3DGS, SuGaR) rely.  
+Accurate camera alignment ensures that every 3D point and surface is reconstructed according to the **true spatial layout** of the scene.
+
+---
+
+**Input:**  
+Group of sharp frames (`.jpg`) extracted from the input video.
+
+**Output:**  
+- `cameras.txt` → intrinsic parameters (focal length, principal point, distortion)  
+- `images.txt` → extrinsic parameters (rotation, translation, 2D–3D correspondences)  
+- `points3D.txt` → sparse 3D point cloud with visibility information  
+
+These files together define the **camera geometry** and **initial sparse reconstruction**, used as input for all subsequent 3D stages.
+
+---
+
+**Mechanism (in short):**  
+The Structure-from-Motion (SfM) pipeline proceeds as follows:
+1. **Feature extraction:** detect local features using **SIFT** on each frame.  
+2. **Sequential feature matching:** match descriptors between consecutive frames (since video frames have high overlap).  
+3. **Incremental pose estimation & triangulation:** estimate camera poses and triangulate matched keypoints to obtain sparse 3D points.  
+4. **Global bundle adjustment:** jointly optimize all camera parameters and 3D point positions to minimize reprojection error.
+
+This process recovers the **true spatial configuration** of the camera setup and ensures geometric consistency across all views.
+
+---
+
+**Configuration:**  
+- **No image downscaling** applied — high-resolution details preserved for more reliable matches.  
+- **Shared camera intrinsics** optimized once for all images (same recording device).  
+- **Sequential matching** chosen for efficiency and robustness, exploiting temporal continuity in video frames.  
+
+---
+
+**Summary:**  
+The camera alignment step captures the **real geometry** of the tree and fruit setup.  
+It produces a metrically consistent sparse 3D model that serves as the **foundation** for every dense reconstruction method (MVS, 3DGS, SuGaR) used later in the pipeline.
+
+
