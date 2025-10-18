@@ -34,10 +34,10 @@ The pipeline follows a structured, end-to-end process:
 Select the sharpest frames dynamically from the input video to ensure high-quality reconstruction, regardless of camera model, resolution, or frame rate.
 
 **Input:**  
-A short smartphone video of the tree scan (`.mp4`) containing the fruits and a visible reference sphere.
+Video of a scanned tree (`.mp4`)
 
 **Output:**  
-A folder of sharp, evenly spaced RGB frames ready for segmentation and 3D reconstruction.
+Group of sharp images (`.jpg`) extracted from the video
 
 **Mechanism (in short):**  
 - The video’s resolution and FPS are read automatically.  
