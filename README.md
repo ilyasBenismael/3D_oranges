@@ -212,7 +212,7 @@ An improved version of 3DGS, **SuGaR (Surface-Aligned Gaussian Splatting)**, add
 This alignment significantly improves the **geometric accuracy** of curved fruits and ensures **smoother, more realistic reconstructions**, ideal for precise diameter estimation.
 
 <p align="center">
-  <img src="imgs/b.png" width="50%" alt="Pipeline Overview">
+  <img src="imgs/b.png" width="60%" alt="Pipeline Overview">
 </p>
 
 
