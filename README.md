@@ -75,11 +75,6 @@ RGB image + text prompt (like "orange fruit, orange ball"`)
 - Boxes are refined and scored based on this visual–text alignment.  
 - Final output keeps boxes whose features strongly match the requested text — grounding open-vocabulary text directly to image regions.
 
-<p align="center">
-  <img src="imgs/segmentation/gd_pipeline.png" width="70%">
-</p>
-
-
 **Output:**  
 For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,1]`, with the matched words from the prompt.
 
@@ -101,10 +96,6 @@ Image + bounding boxes (from GroundingDINO)
 - It predicts a **pixel-accurate mask** for each region inside the box.  
 - We added **padding** around each bounding box before passing it to SAM, giving it more **context** and improving edge accuracy around the fruits.  
 - The model outputs one binary mask per object, corresponding to the fruit pixels.
-
-<p align="center">
-  <img src="imgs/segmentation/sam_pipeline.png" width="50%">
-</p>
 
 
 **Output:**  
