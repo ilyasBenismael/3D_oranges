@@ -54,6 +54,8 @@ Group of sharp images (`.jpg`) extracted from the video
 This ensures that only **crisp, well-focused frames** are selected as reliable input for the next pipeline stages.
 
 
+---
+
 
 ### 🧩 2D Segmentation
 
@@ -61,8 +63,6 @@ This ensures that only **crisp, well-focused frames** are selected as reliable i
 Isolate fruits from the background before 3D reconstruction, ensuring that only relevant regions (fruits) are processed.  
 We combined two foundational open-vocabulary models — **GroundingDINO** and **Segment Anything (SAM)** — because they generalize well to any fruit type.  
 By simply changing the **text prompt**, the same approach can be applied to apples, lemons, or grapes without retraining.
-
----
 
 #### ⚙️ Algo 1: Grounding DINO
 
