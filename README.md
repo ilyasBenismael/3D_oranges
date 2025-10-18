@@ -55,3 +55,47 @@ This ensures that only **crisp, well-focused frames** are selected as reliable i
 
 
 
+### 🧩 2D Segmentation
+
+**Goal:**  
+Isolate fruits from the background before 3D reconstruction, ensuring that only relevant regions (fruits) are processed.  
+We combined two foundational open-vocabulary models — **GroundingDINO** and **Segment Anything (SAM)** — because they generalize well to any fruit type.  
+By simply changing the **text prompt**, the same approach can be applied to apples, lemons, or grapes without retraining.
+
+---
+
+#### ⚙️ Algo 1: Grounding DINO
+
+**Input:**  
+RGB image + text prompt (e.g., `"orange fruit"`)
+
+**Mechanism (in short):**  
+- GroundingDINO encodes the **image** and **text prompt** separately using transformer backbones.  
+- It generates a set of **query boxes** that attend to both image and text features.  
+- Each query learns how well its region matches the given words.  
+- Boxes are refined and scored based on this visual–text alignment.  
+- Final output keeps boxes whose features strongly match the requested text — grounding open-vocabulary text directly to image regions.
+
+**Output:**  
+For each image → a group of bounding boxes `(cx, cy, w, h)` normalized to `[0,1]`, with the matched word(s) from the prompt.
+
+**Figures:**  
+- `GD_pipeline.png` — GroundingDINO architecture  
+- `GD_results.png` — Example detection results  
+
+---
+
+#### ⚙️ Algo 2: Segment Anything (SAM)
+
+**Input:**  
+Image + bounding boxes (from GroundingDINO)
+
+**Mechanism (in short):**  
+- SAM extracts image embeddings and uses the bounding boxes as **spatial prompts** to localize the target.  
+- It predicts a **pixel-accurate mask** for each region inside the box.  
+- We added **padding** around each bounding box before passing it to SAM, giving it more **context** and improving edge accuracy around the fruits.  
+- The model outputs one binary mask per object, corresponding to the fruit pixels.
+
+**Output:**  
+For each image → a binary mask of the fruit region (`.png`) aligned with the original image.
+
