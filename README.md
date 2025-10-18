@@ -272,6 +272,10 @@ Cluster of the reference sphere (known real diameter).
 **Output:**  
 Scaled 3D point cloud (all dimensions in millimeters).
 
+<p align="center">
+  <img src="imgs/blue.png" width="75%" alt="Pipeline Overview">
+</p>
+
 **Mechanism :**  
 1. Fit a sphere to the reference cluster and measure its reconstructed diameter.  
 2. Compare with the known real diameter.  
