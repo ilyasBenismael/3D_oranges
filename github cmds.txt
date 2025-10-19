@@ -1,7 +1,0 @@
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin <URL-of-the-separate-repo>
-git pull --rebase origin main
-git branch -M main
-git push -u origin main

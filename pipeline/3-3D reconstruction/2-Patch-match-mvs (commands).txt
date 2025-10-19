@@ -1,0 +1,25 @@
+# 1. Undistort images for dense reconstruction
+colmap image_undistorter \
+    --image_path images \
+    --input_path sparse/0 \
+    --output_path dense \
+    --output_type COLMAP \
+    --max_image_size 600
+# - input_path: (which is the sparse output saved in sparse/0 
+# - max_image_size=600: resizing the lager side of the img to 600 to make things faster
+
+# 2. Compute depth maps (dense stereo)
+colmap patch_match_stereo \
+    --workspace_path dense \
+    --workspace_format COLMAP \
+    --PatchMatchStereo.geom_consistency true
+# - PatchMatchStereo.geom_consistency=true: improves depth consistency
+
+# 3. Fuse depth maps into a dense point cloud
+colmap stereo_fusion \
+    --workspace_path dense \
+    --workspace_format COLMAP \
+    --input_type geometric \
+    --output_path dense/fused.ply
+# - produces dense/fused.ply (final dense point cloud)
+

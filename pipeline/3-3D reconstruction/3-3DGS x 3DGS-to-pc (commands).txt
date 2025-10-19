@@ -1,0 +1,25 @@
+# ==================================================
+# 3D Gaussian Splatting → 3DGS-to-PC
+# ==================================================
+
+# Step 1 : Train 3DGS model
+python train.py \
+  -s "sfm output folder" \
+  -m "any 3dgs_output folder" \
+  --resolution 1 \                  # keep full image resolution for fruit detail
+  --iterations 30000 \              # total training iterations
+  --opacity_lr 0.07 \               # stronger opacity updates for faster pruning
+  --densify_from_iter 500 \         # start densification early
+  --densify_until_iter 15000 \      # stop densification mid-training
+  --percent_dense 0.02              # allocate more Gaussians in our scene
+
+# Step 2 : Convert trained Gaussians into a dense point cloud
+python gauss_to_pc.py \
+  --input_path "the path to the ply file we got from 3DGS" \
+  --output_path "outputs/pc_3dgs_scan1.ply" \
+  --transform_path "sfm output folder" \
+  --num_points 10000000 \           # generate a dense cloud for accurate fitting
+  --colour_quality high \           # keep color fidelity for visualization
+  --visibility_threshold 0.08 \     # remove low-visibility splats (reduce noise)
+  --min_opacity 0.05 \              # discard transparent Gaussians
+  --clean_pointcloud True           # apply quick noise cleanup before clustering

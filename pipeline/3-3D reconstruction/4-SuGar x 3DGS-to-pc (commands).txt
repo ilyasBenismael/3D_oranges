@@ -1,0 +1,28 @@
+# ==================================================
+# SuGaR (Surface-Aligned 3DGS) → 3DGS-to-PC
+# ==================================================
+
+# Step 1 : Train SuGaR with strong surface alignment
+python train_full_pipeline.py \
+  -s "sfm output path" \            # (cameras.txt, images.txt, points3D.txt, images/)
+  --refinement_time long \          # longer refinement for accuracy over speed
+  --export_ply True \               # export refined Gaussians (.ply) for conversion
+  --export_obj False \              # skip OBJ; we need Gaussians for metric analysis
+
+# Step 2 : Convert trained Gaussians into a dense point cloud
+python gauss_to_pc.py \
+  --input_path "the path to the ply file we got from 3DGS" \
+  --output_path "outputs/pc_3dgs_scan1.ply" \
+  --transform_path "sfm output folder" \
+  --num_points 10000000 \           # generate a dense cloud for accurate fitting
+  --colour_quality high \           # keep color fidelity for visualization
+  --visibility_threshold 0.08 \     # remove low-visibility splats (reduce noise)
+  --min_opacity 0.05 \              # discard transparent Gaussians
+  --clean_pointcloud True           # apply quick noise cleanup before clustering
+
+
+
+
+
+
+

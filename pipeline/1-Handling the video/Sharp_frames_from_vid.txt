@@ -1,0 +1,39 @@
+
+################ Main Steps : 
+
+
+
+1-Loads a video file
+
+
+
+2-Reads its resolution (H×W) and FPS
+
+
+
+3-Get the sharpest frames for every N consecutive frames in a video
+
+*This N number should be dynamic with the FPS (frame-per-second)
+*For videos with 30 frame-per-second taking the sharpest frame from every (N=5 frames) is good, so to keep it dynamic with other fps we will use 
+N as = round(fps * (5 / 30))
+
+
+
+4-Getting the sharpest frame uot of the N frames using Laplacient varient
+
+*We use dynamic blur treshhold based on the image qualities
+*Laplacian threshold = 100 is a good baseline for detecting blur in 720p (1280×720) images.
+*If the actual image resolution is higher, Laplacian variance tends to be naturally higher → so we raise the threshold.
+*If the actual image resolution is lower, variance is naturally lower → so we lower the threshold.
+*This keeps the sharp/blurry decision fair, regardless of image size.
+
+
+
+
+
+
+
+
+
+
+

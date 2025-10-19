@@ -1,0 +1,34 @@
+
+# 1. Go to working directory 
+cd /home/game/Bureau/agrumesCalibre/colmap/set2 
+
+# 2. Create database file and required folders
+colmap database_creator --database_path database.db
+mkdir -p sparse dense
+
+# 3. Extract features
+colmap feature_extractor \
+    --database_path database.db \
+    --image_path images \
+    --ImageReader.single_camera 1 \
+    --SiftExtraction.use_gpu 1
+# - single_camera=1: assumes all images from same camera (our case)
+# - use_gpu=1: enables GPU acceleration for faster feature extraction
+
+# 4. Match features (sequential matcher for ordered images)
+colmap sequential_matcher \
+    --database_path database.db \
+    --SiftMatching.use_gpu 1
+# - sequential_matcher: matches features only between temporally close images
+# - use_gpu=1: GPU acceleration for matching
+
+# 5. Sparse reconstruction (triangulating the 3D points, optimizing camera poses, camera parameters, and 3D points locations)
+colmap mapper \
+    --database_path database.db \
+    --image_path images \
+    --output_path sparse
+# - mapper: runs structure-from-motion (SfM)
+# - output_path: stores sparse models inside sparse/
+
+
+
