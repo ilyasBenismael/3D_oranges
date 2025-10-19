@@ -1,4 +1,4 @@
-# On-Tree Orange Fruit Sizing using 3D Reconstruction Technics
+# On-Tree Orange Fruits Sizing using 3D Reconstruction Technics
 
 Accurately estimating fruit size is essential in precision agriculture for **yield prediction and quality control**.  
 Traditional sensor-based or manual methods are either **expensive** or **impractical at scale**, while RGB-based approaches offer a **low-cost and easily deployable alternative** using just consumer smartphones.  
