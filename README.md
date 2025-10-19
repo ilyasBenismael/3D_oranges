@@ -376,7 +376,7 @@ This section summarizes the behavior and comparative performance of each 3D reco
 - Strong light variations cause mismatched depth hypotheses, leading to **duplicated fruits** or geometric artifacts under harsh noon sunlight.  
 
 <p align="center">
-  <img src="imgs/duplicated_fruits.png" width="33%">
+  <img src="imgs/duplicated_fruits.png" width="28%">
   <br>
   <em>Figure – PatchMatch-MVS under strong illumination variation: duplicated fruit artifacts.</em>
 </p>
@@ -386,7 +386,7 @@ The analysis showed that **one part of each duplicated fruit** was reprojected o
 This confirms that **photometric inconsistency** between bright and dark frames caused the reconstruction errors.
 
 <p align="center">
-  <img src="imgs/mvs light vari.png" width="70%">
+  <img src="imgs/mvs light vari.png" width="45%">
   <br>
   <em>Figure – Reprojection analysis of duplicated MVS points under varying brightness levels.</em>
 </p>
