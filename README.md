@@ -454,7 +454,7 @@ This confirms that **photometric inconsistency** between bright and dark frames 
 
 ### ⚙️ Quantitative Evaluation
 
-| Method | Lighting Robustness | Density | Mean Abs. Error (mm) on best conditions (noon and near sets combined)  |
+| Method | Lighting Robustness | Density and scene coverage | Mean Abs. Error (mm) on best conditions (noon and near sets combined)  |
 |---------|---------------------|----------|----------------------|
 | **SfM** | ✅ Strong | ⚠️ Sparse | **4,21 mm** | 
 | **PatchMatch-MVS** | ⚠️ sensitive | ✅ Dense | **2,77 mm** | 
