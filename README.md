@@ -373,17 +373,30 @@ This section summarizes the behavior and comparative performance of each 3D reco
 ### 🔷 Findings on PatchMatch-MVS
 
 **Lighting sensitivity:**  
-- Strong light variation causes mismatched depth hypotheses → duplicated fruits or artifacts under noon sunlight.
+- Strong light variations cause mismatched depth hypotheses, leading to **duplicated fruits** or geometric artifacts under harsh noon sunlight.  
 
 <p align="center">
-  <img src="imgs/duplicated_fruits.png" width="33%"><br>
+  <img src="imgs/duplicated_fruits.png" width="33%">
+  <br>
+  <em>Figure – PatchMatch-MVS under strong illumination variation: duplicated fruit artifacts.</em>
 </p>
 
-**Visibility:**  
+To investigate this issue, we **reprojected the duplicated 3D points** back onto their original 2D images using the known camera parameters.  
+The analysis showed that **one part of each duplicated fruit** was reprojected onto masks of images with **high luminance**, while the **other part** appeared on images with **low luminance**.  
+This confirms that **photometric inconsistency** between bright and dark frames caused the reconstruction errors.
+
+<p align="center">
+  <img src="imgs/mvs_light_vari.png" width="70%">
+  <br>
+  <em>Figure – Reprojection analysis of duplicated MVS points under varying brightness levels.</em>
+</p>
+
+**Results on different visibility levels:**  
 - Accuracy correlates directly with visibility — low-visibility fruits lead to distorted or incomplete clusters.  
 
 <p align="center">
   <img src="imgs/mvs_visibility.png" width="85%"><br>
+  <em>high luminance and low luminance groups of pics.</em>
 </p>
 
 **Density:**  
