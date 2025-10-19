@@ -144,7 +144,7 @@ This process recovers the **true spatial configuration** of the camera setup and
 - **Sequential matching** chosen for efficiency and robustness, exploiting temporal continuity in video frames.
   
 <p align="center">
-  <img src="imgs/sfm/pipeline.png" width="40%" alt="Pipeline Overview">
+  <img src="imgs/mvs_pipeline.png" width="65%" alt="Pipeline Overview">
 </p>
 
 
@@ -175,7 +175,7 @@ Dense point cloud preserving fruit curvature and fine surface details.
 This serves as a strong **baseline** for quantitative fruit sizing.
 
 <p align="center">
-  <img src="imgs/mvs_pipeline.png" width="65%" alt="Pipeline Overview">
+  <img src="imgs/MVS steps.png" width="45%" alt="Pipeline Overview">
 </p>
 
 
