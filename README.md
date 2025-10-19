@@ -386,7 +386,7 @@ The analysis showed that **one part of each duplicated fruit** was reprojected o
 This confirms that **photometric inconsistency** between bright and dark frames caused the reconstruction errors.
 
 <p align="center">
-  <img src="imgs/mvs_light_vari.png" width="70%">
+  <img src="imgs/mvs light vari.png" width="70%">
   <br>
   <em>Figure – Reprojection analysis of duplicated MVS points under varying brightness levels.</em>
 </p>
