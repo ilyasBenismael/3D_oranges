@@ -197,9 +197,9 @@ A compact Gaussian-based model that can be converted into a dense point cloud fo
 
 **Mechanism :**  
 - Each Gaussian has parameters describing its **position, scale, orientation, opacity, and color** (via spherical harmonics).  
-- Training alternates between **rendering**, **error evaluation**, and **parameter updates** to minimize reprojection loss across all views.  
-- Densification was **increased around fruits** to better capture surface curvature and fine details.  
-- **Low-opacity Gaussians** are pruned early to remove background noise and redundant splats.  
+- Training alternates between **rendering**, **error evaluation**, and **parameter updates** to minimize reprojection loss across all views (photometric similarity with the input aligned images).  
+- **Increased densification** so that more Gaussians were allocated around the fruits for detailed coverage. 
+- **Made low-opacity Gaussians pruning stronger** to remove background noise and redundant splats.  
 - After optimization, the model is **converted into a dense point cloud** through a sampling process known as **3DGS-to-PC**, where each Gaussian is projected into 3D space and sampled according to its covariance and opacity.  
   This yields a detailed point cloud that preserves both the **metric geometry** and **local texture fidelity** of the scene.
 
