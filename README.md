@@ -396,7 +396,6 @@ This confirms that **photometric inconsistency** between bright and dark frames 
 
 <p align="center">
   <img src="imgs/mvs_visibility.png" width="85%"><br>
-  <em>high luminance and low luminance groups of pics.</em>
 </p>
 
 **Density:**  
