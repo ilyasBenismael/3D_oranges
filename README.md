@@ -419,14 +419,14 @@ This confirms that **photometric inconsistency** between bright and dark frames 
 - Reconstructed fruits achieve up to **88% visibility** (as measured in the visibility estimation stage), far exceeding the coverage achieved by MVS.  
 
 <p align="center">
-  <img src="imgs/3dgs_results_visibility.png" width="80%"><br>
+  <img src="imgs/3dgs_density.png" width="85%"><br>
 </p>
 
 **Diameter estimation performance:**  
 - Thanks to its higher density and consistency, 3DGS yields **more accurate fruit diameter estimates** than PatchMatch-MVS.  
 
 <p align="center">
-  <img src="imgs/3dgs_vs_mvs.png" width="45%"><br>
+  <img src="imgs/3dgs_results_visibility" width="75%"><br>
 </p>
 
 ✅ **Takeaway:** 3DGS outperforms MVS in **coverage**, **lighting robustness**, and **diameter estimation accuracy**, offering a fuller and more reliable 3D reconstruction of the fruits.
