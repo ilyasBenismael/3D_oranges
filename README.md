@@ -28,12 +28,12 @@ To be applicable in realistic field conditions, the 3D reconstruction model must
 
 | Family | Strengths | Limitations | Suitability |
 |---------|------------|--------------|--------------|
-| **Generative (GAN/Diffusion)** | Realistic completions, fill missing geometry | Hallucinate unseen regions → unreliable for measurement | ❌ Not suitable |
-| **Voxel-based** | Simple volumetric representation | Memory explosion, poor scalability to full trees | ❌ Not suitable |
-| **Mesh-based** | Accurate for single objects | Breaks in cluttered multi-object scenes | ⚠️ Limited |
+| **Generative (GAN/Diffusion)** | Realistic completions,good visually,real-time | Hallucinate unseen regions → unreliable for measurement | ❌ Not suitable |
+| **Voxel-based** | Simple volumetric representation,real-time,easily integrated with other architectures | Memory explosion, poor scalability to full trees | ❌ Not suitable |
+| **Mesh-based** | Accurate for single objects, gives directly the mesh format (ready to measure), real-time | Breaks in cluttered multi-object scenes | ⚠️ Limited |
 | **SfM (Structure-from-Motion)** | Metrically accurate camera alignment, trusted geometry backbone | Sparse point cloud, insufficient for fruit surfaces | ✅ Essential foundation |
-| **MVS (PatchMatch)** | Dense, faithful geometry from real multi-view cues, no hallucination | Sensitive to lighting and visibility | ✅ Reliable for dense geometry |
-| **Implicit Neural (NeRF/NeuS)** | Continuous, realistic fields | Hallucinate unseen regions, smooth bias, need 360° capture | ⚠️ Risky |
+| **MVS (PatchMatch)** | Dense, faithful geometry from real multi-view cues, no hallucination | Not dense enough (doesn't cover well the scene) | ✅ Reliable |
+| **Implicit Neural (NeRF/NeuS)** | Extreme Density, very realistic | Hallucinate unseen regions,need 360° capture | ⚠️ Risky |
 | **Explicit Neural (3DGS / SuGaR)** | High fidelity, surface-aligned, robust to light, controllable pruning | Require SfM initialization | ✅ Most promising |
 
 ---
