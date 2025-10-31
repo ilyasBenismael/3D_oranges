@@ -14,16 +14,13 @@ Each component of the pipeline — from segmentation to metric scaling and geome
 ## 🧠 Most Suitable Models for Our Conditions
 
 ### Task Constraints
-Our pipeline is designed under strict and realistic field conditions.  
-To be applicable in real orchard environments, any 3D reconstruction model must:
+To be applicable in realistic field conditions, the 3D reconstruction model must:
 
+- Prioritize **geometric accuracy** over appearance or real-time speed.
 - Reconstruct the **entire tree**, including fruits and reference objects, for global metric scaling.  
-- Prioritize **geometric accuracy** over appearance or real-time speed.  
+- Avoid **hallucinating unseen regions**, as we capture mostly front views.
 - Remain **robust under occlusions, shadows, and natural light changes**.  
 - Require **no ground-truth depth or 3D supervision**, relying solely on RGB images.  
-- Avoid **hallucinating unseen regions**, as we capture mostly front views.
-
-These constraints eliminate many modern, appearance-driven approaches and focus our attention on models that respect real geometry and physical visibility.
 
 ---
 
@@ -58,20 +55,6 @@ These constraints eliminate many modern, appearance-driven approaches and focus 
 4. **SuGaR (Surface-Aligned 3DGS)**  
    Extends 3DGS with **surface alignment regularization**, ensuring Gaussians stay attached to true surfaces.  
    This yields **cleaner, more precise geometry**, particularly for **distant or occluded fruits**.
-
----
-
-### ✅ Final Choice
-After evaluating all families, the combination that best satisfies our constraints is:
-
-> **SfM → PatchMatch-MVS → SuGaR**
-
-This setup guarantees:
-- Metric accuracy (SfM)  
-- Dense, reliable geometry (MVS)  
-- Robust, surface-aligned refinement (SuGaR)  
-
-It achieves the right balance between **scientific accuracy**, **field robustness**, and **control over geometry**, without relying on synthetic priors or depth supervision.
 
 ---
 
