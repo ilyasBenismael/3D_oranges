@@ -38,23 +38,36 @@ To be applicable in realistic field conditions, the 3D reconstruction model must
 
 ---
 
-### Selected Models for Our Use Case
+# ⚙️ Installation and Setup Guide
 
-1. **Structure-from-Motion (SfM)**  
-   Provides accurate camera poses and a metrically consistent sparse cloud.  
-   Serves as the **geometric backbone** for all later stages.
+This section explains all hardware, software, and installation requirements for running the full pipeline.  
+Each subsection includes the installation command and the related script to execute from this repository.
 
-2. **PatchMatch Multi-View Stereo (MVS)**  
-   Builds on SfM to generate **dense, view-consistent point clouds** without hallucinating unseen regions.  
-   It remains **trustworthy and explainable**, directly tied to photometric consistency.
+---
 
-3. **3D Gaussian Splatting (3DGS)**  
-   A modern explicit neural approach that adds **density, robustness to illumination**, and **richer reconstruction coverage** than MVS.  
-   Gaussians are created only where supported by the real views, avoiding fabricated geometry.
+## 💻 Hardware Requirements
+- CUDA-ready GPU with **Compute Capability ≥ 7.0**  
+- Minimum **6 GB VRAM**  
+- 16 GB RAM recommended  
+- Tested on **Windows 11** and **Ubuntu 22.04 (CUDA 11.8)**
 
-4. **SuGaR (Surface-Aligned 3DGS)**  
-   Extends 3DGS with **surface alignment regularization**, ensuring Gaussians stay attached to true surfaces.  
-   This yields **cleaner, more precise geometry**, particularly for **distant or occluded fruits**.
+---
+
+## 🧰 Software Requirements
+- **Conda** environment manager  
+- **C++ Compiler** for PyTorch extensions  
+- **CUDA SDK 11** (install *after* Visual Studio)  
+- Ensure the **C++ compiler** and **CUDA SDK** are **version-compatible**
+
+---
+
+## 🟢 Grounding DINO Installation
+```bash
+git clone https://github.com/IDEA-Research/GroundingDINO.git
+cd GroundingDINO
+pip install -e .
+wget -q https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
+```
 
 ---
 
