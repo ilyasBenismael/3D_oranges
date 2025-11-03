@@ -61,13 +61,86 @@ Each subsection includes the installation command and the related script to exec
 
 ---
 
-## 🟢 Grounding DINO Installation
+## Grounding DINO 
+### Installation
 ```bash
 git clone https://github.com/IDEA-Research/GroundingDINO.git
 cd GroundingDINO
 pip install -e .
 wget -q https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
 ```
+
+### Inference
+
+```bash
+python pipeline/2-2D\ segmentation/GroundingDino.py
+```
+
+## Segment Anything 
+### Installation
+```bash
+git clone git@github.com:facebookresearch/segment-anything.git
+cd segment-anything
+pip install -e .
+
+```
+
+### Inference
+```bash
+python pipeline/2-2D\ segmentation/SAM.py
+
+```
+
+
+## SFM and MVS
+### Installation
+```bash
+git clone https://github.com/colmap/colmap.git
+cd colmap && mkdir build && cd build
+cmake .. && make -j && sudo make install
+```
+
+### Inference
+```bash
+pipeline/3-3D\ reconstruction/1-Structure-from-motion\ (commands).txt
+pipeline/3-3D\ reconstruction/2-Patch-match-mvs\ (commands).txt
+```
+
+## 3DGS
+### Installation
+```bash
+git clone https://github.com/graphdeco-inria/gaussian-splatting --recursive
+cd gaussian-splatting
+pip install -r requirements.txt
+```
+
+### Inference
+```bash
+pipeline/3-3D\ reconstruction/3-3DGS\ x\ 3-3DGS-to-pc\ (commands).txt
+```
+
+## 3DGS-TO-PC
+### Installation
+```bash
+git clone https://github.com/Lewis-Stuart-11/3DGS-to-PC
+cd 3DGS-to-PC
+pip install -r requirements.txt
+```
+
+
+## SuGaR
+### Installation
+```bash
+git clone git@github.com:graphdeco-inria/gaussian-splatting.git --recursive
+cd gaussian-splatting
+pip install -r requirements.txt
+```
+
+### Inference
+```bash
+pipeline/3-3D\ reconstruction/4-SuGar\ x\ 3-3DGS-to-pc\ (commands).txt
+```
+
 
 ---
 
