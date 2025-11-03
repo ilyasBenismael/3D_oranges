@@ -131,8 +131,8 @@ pip install -r requirements.txt
 ## SuGaR
 ### Installation
 ```bash
-git clone git@github.com:graphdeco-inria/gaussian-splatting.git --recursive
-cd gaussian-splatting
+git clone https://github.com/Anttwo/SuGaR.git --recursive
+cd SuGaR
 pip install -r requirements.txt
 ```
 
